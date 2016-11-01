@@ -10,4 +10,11 @@
 
 (def fib-list (fib-seq))
 
-(println (take-while #(< % 4000001) fib-list))
+(println (reduce
+  (fn
+    [sum nr]
+    (if (= (mod nr 2) 0)
+      (+ sum nr)
+      sum))
+  0
+  (take-while #(< % 4000001) fib-list)))
