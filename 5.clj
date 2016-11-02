@@ -7,5 +7,5 @@
 
 (loop [nr 20]
   (if (some #(not (divisible? nr %)) (range 1 20))
-    (recur (inc nr))
+    (recur (+ nr 2))
     (println nr)))
