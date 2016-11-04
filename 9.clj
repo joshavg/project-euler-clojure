@@ -22,7 +22,7 @@
         bsqr (* b b)
         csqr (* c c)]
     (if (= (+ asqr bsqr) csqr)
-      (println "found" (* a b c) a b c)
+      (println (* a b c))
       (when (not-nil? rest-tuples)
         (recur
           (first rest-tuples)
