@@ -44,3 +44,25 @@
     "05886116467109405077541002256983155200055935729725"
     "71636269561882670428252483600823257530420752963450"))
 
+(def chrs
+  (re-seq #"." knr))
+
+(def lgth 13)
+
+(println
+(apply max
+  (map
+    (fn [nr-seq]
+      (reduce *
+        (map #(Integer/parseInt (str %)) nr-seq)))
+    (loop [results []
+           nr-seq (take lgth chrs)
+           nrs (nthrest chrs lgth)]
+      (let [new-results (conj results nr-seq)]
+        (if (>= (count nrs) lgth)
+          (recur new-results
+            (concat (rest nr-seq) (first nrs))
+            (rest nrs))
+          new-results))))
+)
+)
