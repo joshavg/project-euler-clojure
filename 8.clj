@@ -50,19 +50,17 @@
 (def lgth 13)
 
 (println
-(apply max
-  (map
-    (fn [nr-seq]
-      (reduce *
-        (map #(Integer/parseInt (str %)) nr-seq)))
-    (loop [results []
-           nr-seq (take lgth chrs)
-           nrs (nthrest chrs lgth)]
-      (let [new-results (conj results nr-seq)]
-        (if (>= (count nrs) lgth)
-          (recur new-results
-            (concat (rest nr-seq) (first nrs))
-            (rest nrs))
-          new-results))))
-)
-)
+  (apply max
+    (map
+      (fn [nr-seq]
+        (reduce *
+          (map #(Integer/parseInt (str %)) nr-seq)))
+      (loop [results []
+             nr-seq (take lgth chrs)
+             nrs (nthrest chrs lgth)]
+        (let [new-results (conj results nr-seq)]
+          (if (>= (count nrs) lgth)
+            (recur new-results
+              (concat (rest nr-seq) (first nrs))
+              (rest nrs))
+            new-results))))))
