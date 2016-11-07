@@ -59,13 +59,40 @@
                  max-product))
         max-product))))
 
-(def max-x-e
-  (reduce (fn [max-prod row]
-      (let [prod (max-4-adj-prod row)]
-        (if (> prod max-prod)
-          prod
-          max-prod)))
-    0
-    grid))
+(def pivot-grid
+  "the given grid rotated by 90 degrees"
+  (map (fn [ix]
+    (let [max-i (count (nth grid ix))]
+      (reduce (fn [arr nr]
+          (conj arr (nth (nth grid nr) ix)))
+        []
+        (range 0 max-i))))
+    (range 0 (count (nth grid 0)))))
 
-(println max-x-e)
+(defn max-grid
+  "calculates the maximum product using max-4-adj-prod of the rows in the given grid"
+  [pgrid]
+  (reduce (fn [max-prod row]
+    (let [prod (max-4-adj-prod row)]
+      (if (> prod max-prod)
+        prod
+        max-prod)))
+    0
+    pgrid))
+
+(defn max-grid-reverse
+  "same as max-grid but reverses the rows"
+  [pgrid]
+  (reduce (fn [max-prod row]
+    (let [prod (max-4-adj-prod (reverse row))]
+      (if (> prod max-prod)
+        prod
+        max-prod)))
+    0
+    pgrid))
+
+(println
+  (max (max-grid grid)
+    (max-grid-reverse grid)
+    (max-grid pivot-grid)
+    (max-grid-reverse pivot-grid)))
