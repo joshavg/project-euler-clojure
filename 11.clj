@@ -51,7 +51,7 @@
          rest-nrs (nthrest vctr 4)
          max-product 0]
     (let [product (reduce * nrs)]
-      (if (> (count rest-nrs) 4)
+      (if (> (count rest-nrs) 0)
         (recur (concat (rest nrs) [(first rest-nrs)])
                (rest rest-nrs)
                (if (> product max-product)
@@ -92,7 +92,7 @@
     pgrid))
 
 (println
-  (max (max-grid grid)
+    (max-grid grid)
     (max-grid-reverse grid)
     (max-grid pivot-grid)
-    (max-grid-reverse pivot-grid)))
+    (max-grid-reverse pivot-grid))
