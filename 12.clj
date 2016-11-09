@@ -8,20 +8,37 @@
 ;15: 1,3,5,15
 ;21: 1,3,7,21
 ;28: 1,2,4,7,14,28
+;36: 1,2,3,4,6,9,12,18,36
+;45: 1,3,5,9,15,45
 ;We can see that 28 is the first triangle number to have over five divisors.
 ;What is the value of the first triangle number to have over five hundred divisors?
 
-(defn tri*
-  "Generates lazy sequence of triangular numbers"
-  ([] (tri* 0 1))
-  ([sum n]
-     (let [new-sum (+ sum n)]
-       (cons new-sum (lazy-seq (tri* new-sum (inc n)))))))
+(def min-factors 500)
 
-(def tri (tri*))
-
-(defn triangular?
-  "Is the number triangular? e.g. 1, 3, 6, 10, 15, etc"
+(defn nth-tri-number
   [n]
-  (= n (last (take-while #(>= n %) tri))))
+  (/ (* n (inc n)) 2))
+
+(defn cnt-factors
+  [nr]
+  (loop [i 1
+         k []]
+    (let [r (rem nr i)]
+      (cond
+        (= nr 1) 1
+        (some #(= % i) k) (count (distinct k))
+        (= 0 r) (recur
+          (inc i)
+          (concat k [i (/ nr i)]))
+        true (recur (inc i) k)))))
+
+(println
+  (loop [nth-tri 1]
+    (when (= 0 (mod nth-tri 100))
+      (println nth-tri (nth-tri-number nth-tri)))
+    (let [tri-nr (nth-tri-number nth-tri)
+          cnt (cnt-factors tri-nr)]
+      (if (>= cnt min-factors)
+        tri-nr
+        (recur (inc nth-tri))))))
 
